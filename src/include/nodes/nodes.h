@@ -459,6 +459,7 @@ typedef enum NodeTag
 	T_AlterRewriteNewConstraint,
 	T_AlterRewriteNewColumnValue,
 	T_SharedStorageOpStmt,
+	T_TestMotionStmt,
 	/**/
 	
 	T_A_Expr = 850,

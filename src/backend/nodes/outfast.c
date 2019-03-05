@@ -3906,6 +3906,13 @@ _outQueryResource(StringInfo str, QueryResource *node)
 	WRITE_INT64_FIELD(master_start_time);
 }
 
+static void
+_outTestMotionStmt(StringInfo str, TestMotionStmt *node)
+{
+	WRITE_NODE_TYPE("TESTMOTIONSTMT");
+	WRITE_STRING_FIELD(name);
+}
+
 /*
  * _outNode -
  *	  converts a Node into binary string and append it to 'str'
@@ -4745,6 +4752,10 @@ _outNode(StringInfo str, void *obj)
 
 			case T_QueryResource:
 				_outQueryResource(str, obj);
+				break;
+
+			case T_TestMotionStmt:
+				_outTestMotionStmt(str, obj);
 				break;
 
 			default:

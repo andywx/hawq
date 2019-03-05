@@ -3266,6 +3266,13 @@ _outVariableResetStmt(StringInfo str, VariableResetStmt *node)
 }
 
 static void
+_outTestMotionStmt(StringInfo str, TestMotionStmt *node)
+{
+	WRITE_NODE_TYPE("TESTMOTIONSTMT");
+	WRITE_STRING_FIELD(name);
+}
+
+static void
 _outQuery(StringInfo str, Query *node)
 {
 	WRITE_NODE_TYPE("QUERY");
@@ -3345,6 +3352,7 @@ _outQuery(StringInfo str, Query *node)
 			case T_CreateOpClassItem:
 			case T_RemoveOpClassStmt:
 			case T_CreateConversionStmt:
+			case T_TestMotionStmt:
 				WRITE_NODE_FIELD(utilityStmt);
 				break;
 			default:
@@ -4927,6 +4935,10 @@ _outNode(StringInfo str, void *obj)
 
 			case T_QueryResource:
 				_outQueryResource(str, obj);
+				break;
+
+			case T_TestMotionStmt:
+				_outTestMotionStmt(str, obj);
 				break;
 
 			default:

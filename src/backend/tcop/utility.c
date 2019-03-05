@@ -1750,6 +1750,18 @@ ProcessUtility(Node *parsetree,
 			PerformSharedStorageOp((SharedStorageOpStmt *) parsetree);
 			break;
 
+		case T_TestMotionStmt:
+			{
+				/*NOTE: Usage Forbidden should be considered in detail*/
+				TestMotionStmt * stmt = (TestMotionStmt *) parsetree;
+				stmt->name;
+
+				if (completionTag)
+					snprintf(completionTag, COMPLETION_TAG_BUFSIZE,
+							stmt->name, UINT64_FORMAT, 0);
+			}
+			break;
+
 		default:
 			Assert(false);
 			elog(ERROR, "unrecognized node type: %d",
@@ -2601,6 +2613,11 @@ CreateCommandTag(Node *parsetree)
 		case T_AlterTypeStmt:
 			tag = "ALTER TYPE";
 			break;
+
+		case T_TestMotionStmt:
+			tag = "TESTMOTION";
+			break;
+
 		default:
 			Assert(false);
 			elog(WARNING, "unrecognized node type: %d",
@@ -2966,6 +2983,10 @@ GetCommandLogLevel(Node *parsetree)
 			 * a utility statement.  Cope.
 			 */
 			lev = GetQueryLogLevel((Node *) parsetree);
+			break;
+
+		case T_TestMotionStmt:
+			lev = LOGSTMT_MOD;
 			break;
 
 		default:

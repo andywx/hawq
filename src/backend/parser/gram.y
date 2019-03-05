@@ -215,7 +215,7 @@ static Node *makeIsNotDistinctFromNode(Node *expr, int position);
 		CreateFunctionStmt AlterFunctionStmt ReindexStmt RemoveAggrStmt
 		RemoveFuncStmt RemoveOperStmt RenameStmt RevokeStmt RevokeRoleStmt
 		RuleActionStmt RuleActionStmtOrEmpty RuleStmt
-		SelectStmt TransactionStmt TruncateStmt
+		SelectStmt TestMotionStmt TransactionStmt TruncateStmt
 		UnlistenStmt UpdateStmt VacuumStmt
 		VariableResetStmt VariableSetStmt VariableShowStmt
 		ViewStmt CheckPointStmt CreateConversionStmt
@@ -569,7 +569,7 @@ static Node *makeIsNotDistinctFromNode(Node *expr, int position);
 	SUBSTRING SUPERUSER_P SYMMETRIC
 	SYSID SYSTEM_P
 
-	TABLE TABLESPACE TB TEMP TEMPLATE TEMPORARY THEN THRESHOLD TIES TIME TIMESTAMP
+	TABLE TABLESPACE TB TEMP TEMPLATE TEMPORARY TESTMOTION THEN THRESHOLD TIES TIME TIMESTAMP
 	TO TRAILING TRANSACTION TREAT TRIGGER TRIM TRUE_P
 	TRUNCATE TRUSTED TYPE_P
 
@@ -592,7 +592,7 @@ static Node *makeIsNotDistinctFromNode(Node *expr, int position);
 %token			NULLS_FIRST NULLS_LAST WITH_CASCADED WITH_LOCAL WITH_CHECK WITH_TIME
 
 /* Special token types, not actually keywords - see the "lex" file */
-%token <str>	IDENT FCONST SCONST BCONST XCONST Op
+%token <str>	IDENT FCONST SCONST BCONST XCONST Op IRI_REF
 %token <ival>	ICONST PARAM
 
 /* precedence: lowest to highest */
@@ -1092,6 +1092,7 @@ stmt :
 			| RevokeRoleStmt
 			| RuleStmt
 			| SelectStmt
+			| TestMotionStmt
 			| TransactionStmt
 			| TruncateStmt
 			| UnlistenStmt
@@ -6419,6 +6420,47 @@ from_in:	FROM									{}
 			| IN_P									{}
 		;
 
+/*****************************************************************************
+ *
+ *		QUERY :
+ *				TESTMOTION name
+ *
+ *****************************************************************************/
+
+TestMotionStmt:	TESTMOTION name spar_ppath name
+				{
+					TestMotionStmt *n = makeNode(TestMotionStmt);
+					n->name = $2;
+					$$ = (Node *)n;
+				}
+		;
+
+spar_ppath:	spar_ppath_seq {  }
+			| spar_ppath '|' spar_ppath_seq {  }
+		;
+
+spar_ppath_seq: spar_ppath_fwd_or_inv			{  }
+				| spar_ppath_seq '/' spar_ppath_fwd_or_inv	{  }
+		;
+
+spar_ppath_fwd_or_inv: '^' spar_ppath_leaf_or_sub '?'	{  }
+	| '^' spar_ppath_leaf_or_sub '*'	{  }
+	| '^' spar_ppath_leaf_or_sub '+'	{  }
+	| '^' spar_ppath_leaf_or_sub		{  }
+	| spar_ppath_leaf_or_sub '?'		{  }
+	| spar_ppath_leaf_or_sub '*'		{  }
+	| spar_ppath_leaf_or_sub '+'		{  }
+	| spar_ppath_leaf_or_sub		{  }
+	;
+
+spar_ppath_leaf_or_sub: DISTINCT '(' spar_ppath ')'	{  }
+	| '(' spar_ppath ')'		{  }
+	| '!' '(' spar_ppath ')'		{  }
+	| '!' IRI_REF			{  }
+	| '!' 'a'				{  }
+	| IRI_REF				{  }
+	| 'a'					{  }
+	;
 
 /*****************************************************************************
  *
@@ -12691,6 +12733,7 @@ unreserved_keyword:
 			| TEMP
 			| TEMPLATE
 			| TEMPORARY
+			| TESTMOTION
 			| THRESHOLD
 			| TIES
 			| TRANSACTION

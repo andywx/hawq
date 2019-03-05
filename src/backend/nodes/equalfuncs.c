@@ -2363,6 +2363,14 @@ _equalAlterTypeStmt(AlterTypeStmt *a, AlterTypeStmt *b)
 	return true;
 }
 
+static bool
+_equalTestMotionStmt(TestMotionStmt *a, TestMotionStmt *b)
+{
+	COMPARE_STRING_FIELD(name);
+
+	return true;
+}
+
 /*
  * Stuff from pg_list.h
  */
@@ -3053,6 +3061,9 @@ equal(void *a, void *b)
 			break;
 		case T_AlterTypeStmt:
 			retval = _equalAlterTypeStmt(a, b);
+			break;
+		case T_TestMotionStmt:
+			retval = _equalTestMotionStmt(a, b);
 			break;
 
 		default:

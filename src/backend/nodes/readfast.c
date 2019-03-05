@@ -4136,6 +4136,17 @@ _readQueryResource(const char **str)
 	READ_DONE();
 }
 
+static TestMotionStmt *
+_readTestMotionStmt(const char ** str)
+{
+	READ_LOCALS(TestMotionStmt);
+
+	READ_STRING_FIELD(name);
+
+	READ_DONE();
+
+}
+
 void *
 readNodeBinary(const char ** str)
 {
@@ -4908,6 +4919,10 @@ readNodeBinary(const char ** str)
 
 		case T_QueryResource:
 			return_value = _readQueryResource(str);
+			break;
+
+		case T_TestMotionStmt:
+			return_value = _readTestMotionStmt(str);
 			break;
 
 		default:

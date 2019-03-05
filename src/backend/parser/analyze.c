@@ -788,6 +788,16 @@ transformStmt(ParseState *pstate, Node *parseTree,
 											(DeclareCursorStmt *) parseTree);
 			break;
 
+		case T_TestMotionStmt:
+			{
+				TestMotionStmt   *n = (TestMotionStmt *) parseTree;
+
+				result = makeNode(Query);
+				result->commandType = CMD_UTILITY;
+				result->utilityStmt = (Node *) parseTree;
+			}
+			break;
+
 		default:
 
 			/*

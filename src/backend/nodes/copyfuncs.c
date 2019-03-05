@@ -4286,6 +4286,16 @@ _copyVirtualSegmentNode(const VirtualSegmentNode *from)
 	return newnode;
 }
 
+static TestMotionStmt *
+_copyTestMotionStmt(TestMotionStmt *from)
+{
+	TestMotionStmt   *newnode = makeNode(TestMotionStmt);
+
+	COPY_STRING_FIELD(name);
+
+	return newnode;
+}
+
 /* ****************************************************************
  *					pg_list.h copy functions
  * ****************************************************************
@@ -5187,6 +5197,11 @@ copyObject(void *from)
 		case T_VirtualSegmentNode:
 			retval = _copyVirtualSegmentNode(from);
 			break;
+
+		case T_TestMotionStmt:
+			retval = _copyTestMotionStmt(from);
+			break;
+
 		default:
 			elog(ERROR, "unrecognized node type: %d", (int) nodeTag(from));
 			retval = from;		/* keep compiler quiet */

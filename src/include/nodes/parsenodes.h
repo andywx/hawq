@@ -2770,4 +2770,14 @@ typedef struct ReassignOwnedStmt
 	char	   *newrole;
 } ReassignOwnedStmt;
 
+/* ----------------------
+ *		TestMotion Statement
+ * ----------------------
+ */
+typedef struct TestMotionStmt
+{
+	NodeTag		type;
+	char	   *name;		/* cluster node name */
+} TestMotionStmt;
+
 #endif   /* PARSENODES_H */

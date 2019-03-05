@@ -352,6 +352,8 @@ realfail2		({integer}|{decimal})[Ee][-+]
 
 param			\${integer}
 
+iri_ref			"<"([^<>"{}|^`\001-\040\\])*">"
+
 other			.
 
 /*
@@ -904,6 +906,12 @@ other			.
 					ident = downcase_truncate_identifier(yytext, yyleng, true);
 					yylval.str = ident;
 					return IDENT;
+				}
+
+{iri_ref}		{
+					SET_YYLLOC();
+					yylval.str = pstrdup(yytext);
+					return IRI_REF;
 				}
 
 {other}			{
