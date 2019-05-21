@@ -9,7 +9,7 @@
 #ifndef __pljava_Iterator_h
 #define __pljava_Iterator_h
 
-#include "pljava/HashMap.h"
+#include "HashMap.h"
 
 #ifdef __cplusplus
 extern "C" {

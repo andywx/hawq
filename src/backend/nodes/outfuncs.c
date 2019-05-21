@@ -3016,6 +3016,13 @@ _outCopyStmt(StringInfo str, CopyStmt *node)
 	WRITE_NODE_FIELD(scantable_splits);
 }
 
+static void
+_outCopyRdfStmt(StringInfo str, CopyRdfStmt *node)
+{
+	WRITE_NODE_TYPE("COPYRDFSTMT");
+	WRITE_STRING_FIELD(filename);
+	WRITE_STRING_FIELD(schema_name);
+}
 
 static void
 _outGrantStmt(StringInfo str, GrantStmt *node)
@@ -3353,6 +3360,7 @@ _outQuery(StringInfo str, Query *node)
 			case T_RemoveOpClassStmt:
 			case T_CreateConversionStmt:
 			case T_TestMotionStmt:
+			case T_CopyRdfStmt:
 				WRITE_NODE_FIELD(utilityStmt);
 				break;
 			default:
@@ -4734,6 +4742,9 @@ _outNode(StringInfo str, void *obj)
 				break;
 			case T_CopyStmt:
 				_outCopyStmt(str, obj);
+				break;
+			case T_CopyRdfStmt:
+				_outCopyRdfStmt(str, obj);
 				break;
 			case T_SelectStmt:
 				_outSelectStmt(str, obj);

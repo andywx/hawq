@@ -460,6 +460,7 @@ typedef enum NodeTag
 	T_AlterRewriteNewColumnValue,
 	T_SharedStorageOpStmt,
 	T_TestMotionStmt,
+	T_CopyRdfStmt,
 	/**/
 	
 	T_A_Expr = 850,
@@ -742,7 +743,44 @@ typedef enum DispatchMethod
 	DISPATCH_PARALLEL			/* Dispatch on query executor and entry processes. */
 	
 } DispatchMethod;
-
+/*
+ * To store knowledge graph
+ * <s,p,o>
+ */
+typedef struct P2O{
+    char* p;
+    char* o;
+    struct P2O* next;
+}P2O;
+typedef struct{
+    char* s;
+    struct P2O* values;
+}S2PO;
+typedef struct TRIPLE{
+	S2PO sub_pre_obj;
+	struct TRIPLE* next;
+}TRIPLE;
+typedef struct P2S{
+    char* p;
+    char* s;
+    struct P2S* next;
+}P2S;
+typedef struct{
+    char* o;
+    struct P2S* values;
+}O2SP;
+typedef struct TRIPLE_DIV{
+	O2SP obj_sub_pre;
+	struct TRIPLE_DIV* next;
+}TRIPLE_DIV;
+/*
+ * To help store in table ds/rs
+ */
+typedef struct DS_RS_LIST{
+	char* l_id;
+	char* elm;
+	struct DS_RS_LIST* next;
+}DS_RS_LIST;
 /* 
  * Inside the executor, if a caller to some data type manipulation functions
  * (e.g., int8inc()) is doing aggregate or window function work, we want to

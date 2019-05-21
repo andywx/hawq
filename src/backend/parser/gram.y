@@ -197,7 +197,7 @@ static Node *makeIsNotDistinctFromNode(Node *expr, int position);
 		AlterObjectSchemaStmt AlterOwnerStmt AlterQueueStmt AlterSeqStmt 
 		AlterTableStmt AlterUserStmt AlterUserMappingStmt AlterUserSetStmt AlterRoleStmt 
 		AlterRoleSetStmt AnalyzeStmt ClosePortalStmt ClusterStmt 
-		CommentStmt ConstraintsSetStmt CopyStmt CreateAsStmt CreateCastStmt
+		CommentStmt ConstraintsSetStmt CopyStmt CopyRdfStmt CreateAsStmt CreateCastStmt
 		CreateDomainStmt CreateExternalStmt CreateFileSpaceStmt CreateGroupStmt
 		CreateOpClassStmt CreatePLangStmt
 		CreateQueueStmt CreateSchemaStmt CreateSeqStmt CreateStmt 
@@ -504,7 +504,7 @@ static Node *makeIsNotDistinctFromNode(Node *expr, int position);
 	CACHE CALLED CASCADE CASCADED CASE CAST CHAIN CHAR_P
 	CHARACTER CHARACTERISTICS CHECK CHECKPOINT CLASS CLOSE
 	CLUSTER COALESCE COLLATE COLUMN COMMENT COMMIT
-	COMMITTED CONCURRENTLY CONNECTION CONSTRAINT CONSTRAINTS CONTAINS CONTENT_P CONTINUE_P CONVERSION_P CONVERT COPY COST
+	COMMITTED CONCURRENTLY CONNECTION CONSTRAINT CONSTRAINTS CONTAINS CONTENT_P CONTINUE_P CONVERSION_P CONVERT COPY  COPYRDF COST
 	CREATE CREATEDB CREATEEXTTABLE
 	CREATEROLE CREATEUSER CROSS CSV CUBE CURRENT CURRENT_CATALOG CURRENT_DATE CURRENT_ROLE CURRENT_SCHEMA
 	CURRENT_TIME CURRENT_TIMESTAMP CURRENT_USER CURSOR CYCLE
@@ -1026,6 +1026,7 @@ stmt :
 			| CommentStmt
 			| ConstraintsSetStmt
 			| CopyStmt
+			| CopyRdfStmt
 			| CreateAsStmt
 			| CreateAssertStmt
 			| CreateCastStmt
@@ -3298,7 +3299,23 @@ opt_using:
 			| /*EMPTY*/								{}
 		;
 
-
+/*****************************************************************************
+ *
+ *		QUERY :
+ *				COPYRDF schema filename 
+ *
+ *
+ *****************************************************************************/
+ 
+ CopyRdfStmt:	COPYRDF name file_name 
+				{
+					CopyRdfStmt *n = makeNode(CopyRdfStmt);
+					n->schema_name = $2;
+					n->filename = $3;
+					$$ = (Node *)n;
+				}
+				;
+					
 /*****************************************************************************
  *
  *		QUERY :
@@ -12522,6 +12539,7 @@ unreserved_keyword:
 			| CONTINUE_P
 			| CONVERSION_P
 			| COPY
+			| COPYRDF
 			| COST
 			| CREATEDB
 			| CREATEEXTTABLE

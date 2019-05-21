@@ -2802,6 +2802,19 @@ _readCopyStmt(const char ** str)
 	READ_DONE();
 
 }
+
+static CopyRdfStmt *
+_readCopyRdfStmt(const char ** str)
+{
+	READ_LOCALS(CopyRdfStmt);
+	READ_STRING_FIELD(filename);
+	READ_STRING_FIELD(schema_name);
+	READ_INT_FIELD(s_column_num);
+	READ_INT_FIELD(o_column_num);
+	READ_DONE();
+
+}
+
 static GrantStmt *
 _readGrantStmt(const char ** str)
 {
@@ -4732,6 +4745,9 @@ readNodeBinary(const char ** str)
 				break;
 			case T_CopyStmt:
 				return_value = _readCopyStmt(str);
+				break;
+			case T_CopyRdfStmt:
+				return_value = _readCopyRdfStmt(str);
 				break;
 			case T_ColumnDef:
 				return_value = _readColumnDef(str);

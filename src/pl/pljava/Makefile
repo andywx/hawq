@@ -89,8 +89,8 @@ clean:
 	@-rm -rf $(TARGETDIR)
 
 pljava_all pljava_javadoc: pljava_%:
-	@echo JAVA_HOME='$(JAVA_HOME)'
-	@echo JAVAC_FLAGS='$(JAVAC_FLAGS)'
+	@echo JAVA_HOME=/usr/java/default
+	@echo JAVAC_FLAGS=-g
 	@echo JAVAC=$(JAVAC)
 	@echo JAVAH=$(JAVAH)
 	@echo JAR=$(JAR)

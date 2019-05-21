@@ -797,7 +797,14 @@ transformStmt(ParseState *pstate, Node *parseTree,
 				result->utilityStmt = (Node *) parseTree;
 			}
 			break;
-
+		case T_CopyRdfStmt:
+			{
+				CopyRdfStmt   *n = (CopyRdfStmt *) parseTree;
+				result = makeNode(Query);
+				result->commandType = CMD_UTILITY;
+				result->utilityStmt = (Node *) parseTree;
+			}
+			break;
 		default:
 
 			/*

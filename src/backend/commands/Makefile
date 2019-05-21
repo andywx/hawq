@@ -13,8 +13,8 @@ top_builddir = ../../..
 include $(top_builddir)/src/Makefile.global
 override CPPFLAGS := -I$(top_srcdir)/src/backend/gp_libpq_fe $(CPPFLAGS)
 override CPPFLAGS := -I$(top_srcdir)/src/backend/resourcemanager/include $(CPPFLAGS)
-OBJS = aggregatecmds.o alter.o analyze.o analyzeutils.o async.o cluster.o comment.o  \
-	conversioncmds.o copy.o \
+OBJS = aggregatecmds.o alter.o analyze.o analyzeutils.o async.o cluster.o coloring.o comment.o\
+	conversioncmds.o copy.o copyrdf.o \
 	dbcommands.o define.o explain.o extprotocolcmds.o filespace.o filesystemcmds.o foreigncmds.o functioncmds.o \
 	indexcmds.o lockcmds.o operatorcmds.o opclasscmds.o \
 	portalcmds.o prepare.o proclang.o \

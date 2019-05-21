@@ -9,9 +9,9 @@
 #ifndef __pljava_HashMap_priv_h
 #define __pljava_HashMap_priv_h
 
-#include "pljava/PgObject_priv.h"
-#include "pljava/Iterator.h"
-#include "pljava/HashMap.h"
+#include "PgObject_priv.h"
+#include "Iterator.h"
+#include "HashMap.h"
 
 #ifdef __cplusplus
 extern "C" {

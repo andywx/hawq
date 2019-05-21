@@ -9,7 +9,7 @@
 #ifndef __pljava_PgObject_h
 #define __pljava_PgObject_h
 
-#include "pljava/JNICalls.h"
+#include "JNICalls.h"
 
 #ifdef __cplusplus
 extern "C" {

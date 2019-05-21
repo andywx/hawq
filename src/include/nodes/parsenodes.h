@@ -2778,6 +2778,16 @@ typedef struct TestMotionStmt
 {
 	NodeTag		type;
 	char	   *name;		/* cluster node name */
-} TestMotionStmt;
 
+} TestMotionStmt;
+/* ----------------------
+ *		CopyRdf Statement
+ * ----------------------
+ */
+typedef struct CopyRdfStmt
+{
+	NodeTag     type;
+	char	   *filename;		/* filename */
+	char     *schema_name;/*database name*/
+} CopyRdfStmt;
 #endif   /* PARSENODES_H */

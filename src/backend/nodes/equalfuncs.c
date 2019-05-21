@@ -1077,6 +1077,15 @@ _equalCopyStmt(CopyStmt *a, CopyStmt *b)
 }
 
 static bool
+_equalCopyRdfStmt(CopyRdfStmt *a, CopyRdfStmt *b)
+{
+	COMPARE_STRING_FIELD(filename);
+	COMPARE_STRING_FIELD(schema_name);
+
+	return true;
+}
+
+static bool
 _equalCreateStmt(CreateStmt *a, CreateStmt *b)
 {
 	COMPARE_NODE_FIELD(relation);
@@ -3065,7 +3074,9 @@ equal(void *a, void *b)
 		case T_TestMotionStmt:
 			retval = _equalTestMotionStmt(a, b);
 			break;
-
+		case T_CopyRdfStmt:
+			retval = _equalCopyRdfStmt(a, b);
+			break;
 		default:
 			elog(ERROR, "unrecognized node type: %d",
 				 (int) nodeTag(a));

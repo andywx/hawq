@@ -2959,6 +2959,13 @@ _outCopyStmt(StringInfo str, CopyStmt *node)
 	WRITE_NODE_FIELD(scantable_splits);
 }
 
+static void
+_outCopyRdfStmt(StringInfo str, CopyRdfStmt *node)
+{
+	WRITE_NODE_TYPE("COPYRDFSTMT");
+	WRITE_STRING_FIELD(filename);
+	WRITE_STRING_FIELD(schema_name);
+}
 
 static void
 _outGrantStmt(StringInfo str, GrantStmt *node)
@@ -4549,6 +4556,9 @@ _outNode(StringInfo str, void *obj)
 				break;
 			case T_CopyStmt:
 				_outCopyStmt(str, obj);
+				break;
+			case T_CopyRdfStmt:
+				_outCopyRdfStmt(str, obj);
 				break;
 			case T_ColumnDef:
 				_outColumnDef(str, obj);

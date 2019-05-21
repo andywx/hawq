@@ -9,7 +9,7 @@
 #ifndef __pljava_PgObject_priv_h
 #define __pljava_PgObject_priv_h
 
-#include "pljava/PgObject.h"
+#include "PgObject.h"
 
 #ifdef __cplusplus
 extern "C" {

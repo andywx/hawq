@@ -6,7 +6,7 @@
  *
  * @author Thomas Hallgren
  */
-#include "pljava/HashMap_priv.h"
+#include "HashMap_priv.h"
 
 HashKey HashKey_clone(HashKey self, MemoryContext ctx)
 {

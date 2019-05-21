@@ -29,6 +29,7 @@
 #include "commands/comment.h"
 #include "commands/conversioncmds.h"
 #include "commands/copy.h"
+#include "commands/copyrdf.h"
 #include "commands/dbcommands.h"
 #include "commands/defrem.h"
 #include "commands/explain.h"
@@ -1761,7 +1762,16 @@ ProcessUtility(Node *parsetree,
 							stmt->name, UINT64_FORMAT, 0);
 			}
 			break;
-
+		case T_CopyRdfStmt:
+			{
+						/*NOTE: Usage Forbidden should be considered in detail*/
+				CopyRdfStmt * stmt = (CopyRdfStmt *) parsetree;
+				uint64		processed = DoCopyRdf((CopyRdfStmt *) parsetree, debug_query_string);
+				if (completionTag)
+					snprintf(completionTag, COMPLETION_TAG_BUFSIZE,
+							 "COPYRDF " UINT64_FORMAT, processed);
+			}
+			break;
 		default:
 			Assert(false);
 			elog(ERROR, "unrecognized node type: %d",
@@ -2617,7 +2627,9 @@ CreateCommandTag(Node *parsetree)
 		case T_TestMotionStmt:
 			tag = "TESTMOTION";
 			break;
-
+		case T_CopyRdfStmt:
+			tag = "CopyRdfStmt";
+			break;
 		default:
 			Assert(false);
 			elog(WARNING, "unrecognized node type: %d",
@@ -2988,7 +3000,9 @@ GetCommandLogLevel(Node *parsetree)
 		case T_TestMotionStmt:
 			lev = LOGSTMT_MOD;
 			break;
-
+		case T_CopyRdfStmt:
+			lev = LOGSTMT_MOD;
+			break;
 		default:
 			elog(WARNING, "unrecognized node type: %d",
 				 (int) nodeTag(parsetree));

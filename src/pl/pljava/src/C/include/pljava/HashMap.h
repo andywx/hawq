@@ -9,7 +9,7 @@
 #ifndef __pljava_HashMap_h
 #define __pljava_HashMap_h
 
-#include "pljava/PgObject.h"
+#include "PgObject.h"
 
 #ifdef __cplusplus
 extern "C" {

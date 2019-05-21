@@ -2922,6 +2922,18 @@ _copyCopyStmt(CopyStmt *from)
 	return newnode;
 }
 
+static CopyRdfStmt *
+_copyCopyRdfStmt(CopyRdfStmt *from)
+{
+	CopyRdfStmt   *newnode = makeNode(CopyRdfStmt);
+
+
+	COPY_STRING_FIELD(filename);
+	COPY_STRING_FIELD(schema_name);
+
+	return newnode;
+}
+
 static CreateStmt *
 _copyCreateStmt(CreateStmt *from)
 {
@@ -5200,6 +5212,9 @@ copyObject(void *from)
 
 		case T_TestMotionStmt:
 			retval = _copyTestMotionStmt(from);
+			break;
+		case T_CopyRdfStmt:
+			retval = _copyCopyRdfStmt(from);
 			break;
 
 		default:

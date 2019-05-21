@@ -9,7 +9,7 @@
 #ifndef __pljava_JNICalls_h
 #define __pljava_JNICalls_h
 
-#include "pljava/pljava.h"
+#include "pljava.h"
 
 #ifdef __cplusplus
 extern "C" {

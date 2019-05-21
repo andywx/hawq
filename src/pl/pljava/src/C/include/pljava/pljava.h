@@ -9,7 +9,7 @@
 #ifndef __pljava_pljava_h
 #define __pljava_pljava_h
 
-#include <jni.h>
+#include "/usr/java/default/include/jni.h"
 
 #ifdef __cplusplus
 extern "C" {
